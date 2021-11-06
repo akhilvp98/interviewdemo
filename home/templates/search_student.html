@@ -1,0 +1,19 @@
+{% for i in students %}
+                        <tr>
+                            <td class="align-middle text-center" scope="row">{{ forloop.counter }}</td>
+                            <td class="align-middle text-center">
+                                {{i.get_full_name}}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{i.phone}}
+                            </td>
+                            <td class="align-middle text-center">{{i.calculateAge}}</td>
+                        <td class="align-middle text-center">
+                            <form method="get" action="{%url 'home:student-details' i.id%}">
+                                <button>Details</button></a>
+                            </form>
+                        </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3">No Students available</td></tr>
+                    {% endfor %}

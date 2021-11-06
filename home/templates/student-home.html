@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-dark">
+        <span style="color: white;" class="navbar-brand mb-0 h1"><a href="{% url 'home:home'%}"> HOME </a></span>
+        <a href="{%url 'home:student-details' user.id %}">
+            <input type="button" class="btn btn-primary" style="float: right;" value="VIEW PROFILE"></a>
+        <a href="{% url 'home:logout' %}">
+            <span class="drawer-menu-text" style="color: red;"><span style="color: white;">{{user.get_full_name}}</span> Logout</span>
+          </a>
+      </nav><br><br>
+    <div style="text-align: center;">Marks Uploaded : {% if marks%}<h2>{{marks.marks}}</h2>{%else%} Not Updated{%endif%}</div>
+</body>
+</html>

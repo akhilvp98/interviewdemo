@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-dark">
+        <span style="color: white;" class="navbar-brand mb-0 h1">HOME</span>
+        <a href="{%url 'home:marks' %}">
+        <input type="button" class="btn btn-primary" style="float: right;" value="Marks"></a>
+        <a href="{%url 'home:student-details' user.id %}">
+        <input type="button" class="btn btn-primary" value="View Your Profile"></a>
+        <a href="{% url 'home:logout' %}">
+            <span class="drawer-menu-text" style="color: red;"><span style="color: white;">{{user.get_full_name}}</span> Logout</span>
+          </a>
+      </nav><br><br>
+      <div class="card">
+        <div class="card-header" style="text-align: center;">STUDENTS LIST <input id="search" style="float: right;" placeholder="Search Student"></div>
+        <div class="card-body button1">
+            <div class="table-responsive">
+                <table class="table m-0" id="studentstable">
+                    <thead>
+                        <tr><hr>
+                            <th scope="col" class="text-center">SL#</th>
+                            <th scope="col" class="text-center">NAME</th>
+                            <th scope="col" class="text-center">PHONE</th>
+                            <th scope="col" class="text-center">AGE</th>
+                            <th scope="col" class="text-center">ACTION</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in students %}
+                        <tr>
+                            <td class="align-middle text-center" scope="row">{{ forloop.counter }}</td>
+                            <td class="align-middle text-center">
+                                {{i.get_full_name}}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{i.phone}}
+                            </td>
+                            <td class="align-middle text-center">{{i.calculateAge}}</td>
+                        <td class="align-middle text-center">
+                            <form method="get" action="{%url 'home:student-details' i.id%}">
+                                <button>Details</button></a>
+                            </form>
+                        </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3">No Students available</td></tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table><hr>
+            </div>
+        </div>
+    </div>
+</body>
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+  $('#search').keyup(function() {
+
+    $.ajax({
+        type: "GET",
+        url: "{% url 'home:search-customers' %}",
+        data: {
+            'search' : $('#search').val(),
+            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: function(data)
+                {
+                   $('#studentstable tbody').html(data.html);
+
+                }
+    });
+});
+</script>
+</html>
